@@ -11,25 +11,21 @@ struct HomeView: View {
     @StateObject private var shazamSession = ShazamRecognizer()
     var body: some View {
         ZStack {
-            NavigationView {
-                VStack {
+            VStack {
 
-                    Button {
-                        shazamSession.listenToMusic()
+                Button {
+                    shazamSession.listenToMusic()
 
-                    } label: {
-                        Image(systemName: shazamSession.isRecording ? "stop" : "mic")
-                            .symbolVariant(.fill)
-                            .font(.system(size: 40).bold())
-                            .padding(30)
-                            .background(Color.cyan,
-                                        in: Circle())
-                            .foregroundStyle(.white)
-
-                    }
+                } label: {
+                    Image(systemName: shazamSession.isRecording ? "stop" : "mic")
+                        .symbolVariant(.fill)
+                        .font(.system(size: 40).bold())
+                        .padding(30)
+                        .background(Color.teal,
+                                    in: Circle())
+                        .foregroundStyle(.white)
 
                 }
-                .navigationTitle("Shazaming")
 
             }
 

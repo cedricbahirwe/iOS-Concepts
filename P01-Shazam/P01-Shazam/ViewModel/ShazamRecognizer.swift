@@ -9,30 +9,27 @@ import SwiftUI
 import ShazamKit
 
 final class ShazamRecognizer: NSObject, ObservableObject {
-    // Shazam Engine
-    @Published private(set) var session = SHSession()
+    private let shazamSession = SHSession()
 
-    // Audio Engine
-    @Published private(set) var audioEngine = AVAudioEngine()
+    private let audioEngine = AVAudioEngine()
+
+    @Published var error: ErrorAlert? = nil
 
     @Published private(set) var isRecording = false
 
     @Published private(set) var matchedTrack: ShazamTrack?
 
-    @Published var error: ErrorAlert? = nil
-
     override init() {
         super.init()
-        // Sets delegate
-        session.delegate = self
+        shazamSession.delegate = self
     }
 }
 
 extension ShazamRecognizer: SHSessionDelegate {
     func session(_ session: SHSession, didFind match: SHMatch) {
-        // Match found
         DispatchQueue.main.async {
             if let firstItem = match.mediaItems.first {
+                print(ShazamTrack(firstItem))
                 self.matchedTrack = ShazamTrack(firstItem)
                 self.stopAudioRecording()
             }
@@ -40,10 +37,8 @@ extension ShazamRecognizer: SHSessionDelegate {
     }
 
     func session(_ session: SHSession, didNotFindMatchFor signature: SHSignature, error: Error?) {
-        // No match found
         DispatchQueue.main.async {
             self.error = ErrorAlert(error?.localizedDescription ?? "No Match found!")
-            // Stop Audio recording
             self.stopAudioRecording()
         }
     }
@@ -54,7 +49,6 @@ extension ShazamRecognizer {
     func listenToMusic() {
         let audioSessioin = AVAudioSession.sharedInstance()
 
-        // Check for record permission
         audioSessioin.requestRecordPermission { status in
             if status {
                 self.recordAudio()
@@ -70,28 +64,22 @@ extension ShazamRecognizer {
     }
 
     private func recordAudio() {
-        // Check if recording already then stop it
         if audioEngine.isRunning {
             self.stopAudioRecording()
             return
         } 
 
-        // Create node and listen to it
         let inputNode = audioEngine.inputNode
-        // Format
+
         let format = inputNode.outputFormat(forBus: .zero)
 
-        // removing tap if already installed
         inputNode.removeTap(onBus: .zero)
 
-        // Install tap
         inputNode.installTap(onBus: .zero,
                              bufferSize: 1024,
                              format: format)
         { buffer, time in
-            // Will listen to music continiously
-            // Start Shazam Session
-            self.session.matchStreamingBuffer(buffer, at: time )
+            self.shazamSession.matchStreamingBuffer(buffer, at: time )
         }
 
         audioEngine.prepare()
