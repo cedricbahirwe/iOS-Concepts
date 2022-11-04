@@ -7,4 +7,4 @@ Tech Stack:
 
 Start                 | Result
 --------------------- | ---------------------
-<img src="https://user-images.githubusercontent.com/49038614/195209226-b2001c31-2acb-44a9-abed-23f1b1442525.png" width="320"> | <img src="https://user-images.githubusercontent.com/49038614/195209133-faadfaf0-221b-4d3a-b349-849c14eb967a.png" width="320">
+<img src="https://user-images.githubusercontent.com/49038614/200013097-a211e1f7-48f1-4ee0-8b2b-4993d080cb67.png" width="320"> | <img src="https://user-images.githubusercontent.com/49038614/200013064-6e0777b5-eacf-4c53-8c38-f1d78b7d9a1d.png" width="320">
