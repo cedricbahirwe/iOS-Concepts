@@ -1,5 +1,5 @@
 # iOS-Concepts
-A collection of demo apps to showcase different tech stacks in iOS
+A collection of demo apps to showcase different technologies in iOS ecosystem
 
 ## Projects
 
